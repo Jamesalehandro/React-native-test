@@ -1,20 +1,44 @@
+import React, { useCallback } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeStack from './components/HomeStack';
 
-export default function App() {
+SplashScreen.preventAutoHideAsync();
+
+const App = () => {
+  let [fontLoaded, error] = useFonts({
+    Inter_900Black,
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontLoaded]);
+
+  if (!fontLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar style="light" />
+      <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+        <NavigationContainer>
+          <HomeStack />
+        </NavigationContainer>
+      </View>
+    </>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
-  container: {
+  rootContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
