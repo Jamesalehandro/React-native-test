@@ -12,6 +12,8 @@ const MealDetailsScreen = ({ route, navigation }: Props) => {
   router.params.id;
   const { id } = route.params;
 
+  // ''
+
   const renderMeal = Meals.find((item) => item.id === id);
 
   return (
